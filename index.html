@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy New Year ✨</title>
+<style>
+  *{box-sizing:border-box;font-family:'Poppins',sans-serif}
+  body{margin:0;min-height:100vh;background:linear-gradient(135deg,#ffdee9,#b5fffc);display:flex;justify-content:center;align-items:center;overflow:hidden}
+  .screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:fade 0.7s ease}
+  .active{display:flex}
+  button{padding:14px 26px;border:none;border-radius:30px;font-size:1.1rem;background:linear-gradient(135deg,#ff9a9e,#fad0c4);color:#fff;cursor:pointer;box-shadow:0 10px 20px rgba(0,0,0,0.15);transition:transform 0.2s}
+  button:hover{transform:scale(1.07)}
+  .progress{width:220px;height:16px;background:#fff;border-radius:10px;overflow:hidden;margin-top:15px}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,#84fab0,#8fd3f4)}
+  .page{max-width:300px;font-size:1.3rem}
+  .nav{position:absolute;bottom:20px;right:20px}
+  .year{font-size:2.4rem;font-weight:700;color:#ff69b4;text-shadow:0 0 15px #fff;animation:glow 2s infinite}
+  .clock{font-size:2rem;margin-bottom:10px;animation:pulse 1s infinite}
+  .envelope{width:200px;height:130px;background:#ffb6c1;border-radius:12px;position:relative;transition:transform 0.8s}
+  .envelope.open{transform:translateY(20px)}
+  .envelope:before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:#ffc0cb;clip-path:polygon(0 0,50% 60%,100% 0)}
+  .note{display:none;margin-top:20px;font-size:1.6rem;background:#fff;padding:20px;border-radius:18px;animation:pop 0.7s ease}
+  .from{font-size:1rem;margin-top:10px;color:#ff69b4}
+  .fireworks,.hearts,.snow{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
+  .spark{position:absolute;font-size:1.5rem;animation:explode 1.2s ease-out forwards}
+  .heart{position:absolute;font-size:1.2rem;animation:fall 6s linear forwards}
+  .flake{position:absolute;font-size:1rem;animation:snowfall 7s linear forwards}
+  @keyframes fade{from{opacity:0;transform:scale(0.95)}to{opacity:1}}
+  @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+  @keyframes explode{from{transform:scale(0);opacity:1}to{transform:scale(1.8);opacity:0}}
+  @keyframes fall{from{top:-10%}to{top:110%}}
+  @keyframes snowfall{from{top:-10%}to{top:110%}}
+  @keyframes glow{0%,100%{text-shadow:0 0 10px #fff}50%{text-shadow:0 0 25px #ff69b4}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+</style>
+</head>
+<body><div id="s1" class="screen active">
+  <button onclick="next(2)">👉 Tap here 💖</button>
+</div><div id="s2" class="screen">
+  <h2>⏳ Get Ready…</h2>
+  <h1 id="count">5</h1>
+</div><div id="s3" class="screen">
+  <button onclick="next(4)">Continue ✨</button>
+</div><div id="s4" class="screen">
+  <h2>Are you ready for it? 😍</h2>
+  <div style="display:flex;gap:15px;margin-top:15px">
+    <button onclick="loading()">Yes 😊</button>
+    <button onclick="loading()">Absolutely yes 🤩</button>
+  </div>
+</div><div id="s5" class="screen">
+  <h2>Loading… 💫</h2>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+</div><div id="s6" class="screen">
+  <div class="page" id="pageText"></div>
+  <div class="nav"><button onclick="nextPage()">Next ➡️</button></div>
+</div><div id="s7" class="screen">
+  <div class="clock" id="clock">🕛 11:59</div>
+  <div class="year">✨ 2026 ✨</div>
+  <br>
+  <div class="envelope" id="env"></div>
+  <br>
+  <button onclick="openEnvelope()">Open 💌</button>
+  <div class="note" id="note">🎉 Happy New Year 🎉<br><div class="from">— from Tanishka 💖</div></div>
+</div>
+  <br>
+  <div class="envelope" id="env"></div>
+  <br>
+  <button onclick="openEnvelope()">Open 💌</button>
+  <div class="note" id="note">🎉 Happy New Year 🎉<br><div class="from">— from Tanishka 💖</div></div>
+</div>
+  <br>
+  <button onclick="openEnvelope()">Open 💌</button>
+  <div class="note" id="note">🎉 Happy New Year 🎉<br><div class="from">— from Tanishka 💖</div></div>
+</div><audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3b6b8a1c44.mp3"></audio> <audio id="fireSound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_7b4f92a2c1.mp3"></audio> <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2023/03/07/audio_5f4e9c9df5.mp3" loop></audio>
+
+<div class="fireworks" id="fw"></div><div class="hearts" id="hearts"></div><div class="snow" id="snow"></div><script>
+let clock=document.getElementById('clock');let min=59;let sec=55;let t=setInterval(()=>{clock.innerText='🕛 11:'+String(min).padStart(2,'0');min++;if(min>=60){clock.innerText='🕛 12:00 🎉';clearInterval(t)}},1000);
+
+let pages=[
+"💖 Hope all your wishes come true",
+"😊 May your next year be as bright and beautiful as your smile",
+"🌸 May good things find you everyday",
+"🏆 May all your efforts bring success",
+"🍀 May luck and joy stay with you"
+];
+let p=0;
+function show(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');}
+function next(n){clickSound.play();show(n);if(n===2)countdown();}
+function countdown(){let c=5;let i=setInterval(()=>{document.getElementById('count').innerText=c;c--;if(c<0){clearInterval(i);show(3)}},1000)}
+function loading(){clickSound.play();show(5);let w=0;let i=setInterval(()=>{w+=5;bar.style.width=w+'%';if(w>=100){clearInterval(i);show(6);pageText.innerText=pages[0]}},100)}},100)}
+function nextPage(){p++;if(p<pages.length){pageText.innerText=pages[p]}else{show(7)}}
+function openEnvelope(){clickSound.play();fireSound.play();bgMusic.play();env.classList.add('open');note.style.display='block';for(let i=0;i<30;i++){let s=document.createElement('div');s.className='spark';s.innerText='🎆';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';fw.appendChild(s);setTimeout(()=>s.remove(),1200)}for(let i=0;i<15;i++){let h=document.createElement('div');h.className='heart';h.innerText='💖';h.style.left=Math.random()*100+'%';h.style.animationDuration=(4+Math.random()*3)+'s';hearts.appendChild(h);setTimeout(()=>h.remove(),7000)}for(let i=0;i<20;i++){let f=document.createElement('div');f.className='flake';f.innerText='❄️';f.style.left=Math.random()*100+'%';f.style.animationDuration=(5+Math.random()*4)+'s';snow.appendChild(f);setTimeout(()=>f.remove(),9000)}}for(let i=0;i<20;i++){let h=document.createElement('div');h.className='heart';h.innerText='💖';h.style.left=Math.random()*100+'%';h.style.animationDuration=(3+Math.random()*3)+'s';hearts.appendChild(h);setTimeout(()=>h.remove(),6000)}}}
+</script></body>
+</html>
