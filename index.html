@@ -1,74 +1,240 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy New Year ✨</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif}
-body{margin:0;min-height:100vh;background:linear-gradient(135deg,#ffdee9,#b5fffc);display:flex;justify-content:center;align-items:center;overflow:hidden}
-.screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top,#0b132b,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
+}
+
+.screen{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:20px;
+}
 .active{display:flex}
-button{padding:14px 26px;border:none;border-radius:30px;background:linear-gradient(135deg,#ff9a9e,#fad0c4);color:#fff;font-size:1.1rem;box-shadow:0 10px 25px rgba(0,0,0,.15)}
-button:hover{transform:scale(1.05)}
-.clock{font-size:2.2rem;font-weight:700}
-.snow{position:fixed;top:-10px;color:white;animation:fall linear infinite}
-.progress{width:220px;height:16px;background:#fff;border-radius:10px;overflow:hidden}
+
+button{
+  padding:14px 30px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  color:#fff;
+  font-size:1.1rem;
+  box-shadow:0 0 25px rgba(255,200,200,.6);
+}
+
+.clock{font-size:2.5rem}
+
+.page{
+  font-family:'Great Vibes',cursive;
+  font-size:2.2rem;
+  max-width:320px;
+  text-shadow:0 0 10px rgba(255,255,255,.7);
+}
+
+.progress{width:220px;height:16px;background:#fff;border-radius:10px}
 .bar{height:100%;width:0;background:linear-gradient(90deg,#ff9a9e,#fad0c4)}
-.page{max-width:320px;font-size:1.3rem}
-.nav{position:absolute;bottom:20px;right:20px}
-.envelope{width:220px;height:140px;background:#d6b48c;border-radius:6px;position:relative;box-shadow:0 10px 25px rgba(0,0,0,.25)}
-.envelope:before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#e7caa5,#cfa777);clip-path:polygon(0 0,100% 0,50% 55%)}
-.note{background:#fff;padding:20px;border-radius:10px;animation:pop .6s}
-@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+
+.envelope{
+  width:240px;height:150px;
+  background:#cfa777;
+  border-radius:8px;
+  position:relative;
+  box-shadow:0 15px 35px rgba(0,0,0,.4);
+  overflow:hidden;
+}
+.envelope:before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#e7caa5,#b8935a);
+  clip-path:polygon(0 0,100% 0,50% 60%);
+}
+
+.note{
+  background:#fff;
+  color:#333;
+  padding:25px;
+  border-radius:14px;
+  font-family:'Great Vibes',cursive;
+  font-size:2.4rem;
+  animation:noteOut 1.2s ease forwards;
+  box-shadow:0 0 30px rgba(255,215,150,.9);
+}
+
+@keyframes noteOut{
+  from{transform:translateY(60px) scale(.6);opacity:0}
+  to{transform:translateY(-10px) scale(1);opacity:1}
+}
+
+.firework{
+  position:fixed;
+  font-size:2rem;
+  animation:boom 1.5s ease-out forwards;
+}
+@keyframes boom{
+  from{transform:scale(0);opacity:1}
+  to{transform:scale(3);opacity:0}
+}
+
+.confetti{
+  position:fixed;
+  top:-10px;
+  font-size:1.4rem;
+  animation:fall 4s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
 </style>
 </head>
-<body><audio id="bgm" src="https://cdn.pixabay.com/audio/2022/10/30/audio_6b9bd7e50b.mp3" loop></audio> <audio id="pop" src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8b0e6f1c1.mp3"></audio>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="bg" src="bg-music.mp3" loop></audio>
+<audio id="click" src="click.mp3"></audio>
+<audio id="fire" src="fireworks.mp3"></audio>
 
 <div id="s1" class="screen active">
   <button onclick="start()">👉 Tap here 💖</button>
-</div><div id="s2" class="screen">
+</div>
+
+<div id="s2" class="screen">
   <div class="clock" id="clock">🕛</div>
-  <h2>⏳ Get Ready...</h2>
   <h1 id="count">5</h1>
-</div><div id="s3" class="screen">
-  <h2>Are you ready for it?</h2>
-  <button onclick="next(4)">Yes 💕</button>
-  <button onclick="next(4)">Absolutely Yes 💖</button>
-</div><div id="s4" class="screen">
+</div>
+
+<div id="s3" class="screen">
+  <h2>Are you ready for it? 💕</h2>
+  <button onclick="goLoad()">Yes</button>
+  <button onclick="goLoad()">Absolutely Yes</button>
+</div>
+
+<div id="s4" class="screen">
   <h2>✨ Loading magic...</h2>
   <div class="progress"><div class="bar" id="bar"></div></div>
-</div><div id="s5" class="screen">
-  <div class="page" id="page">Hope all your wishes come true ✨</div>
-  <div class="nav"><button onclick="nextPage()">Next ➡️</button></div>
-</div><div id="s6" class="screen">
+</div>
+
+<div id="s5" class="screen">
+  <div class="page" id="page"></div>
+  <button onclick="nextPage()">Next ➡️</button>
+</div>
+
+<div id="s6" class="screen">
+  <div class="clock" id="envClock">🕛</div>
   <div class="envelope"></div>
   <button onclick="openNote()">Open 💌</button>
   <div id="note"></div>
-</div><script>
+</div>
+
+<script>
 let c=5,p=0;
 const pages=[
 "Hope all your wishes come true ✨",
-"May your next year be as bright and beautiful as your smile 💫",
-"May good things find you every single day 🌸",
+"May your next year be as bright as your smile 💫",
+"May good things find you every day 🌸",
 "May all your efforts bring success 🌟",
-"May luck and joy stay with you 💖"
+"May luck & joy stay with you 💖"
 ];
 
-function start(){document.getElementById('bgm').play();next(2)}
-
-function next(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById('s'+n).classList.add('active');
-if(n===2){c=5;document.getElementById('count').innerText=c;let t=setInterval(()=>{c--;document.getElementById('count').innerText=c;if(c===0){clearInterval(t);next(3)}},1000)}
-if(n===4){let b=document.getElementById('bar');b.style.width='0';let w=0;let l=setInterval(()=>{w+=10;b.style.width=w+'%';if(w>=100){clearInterval(l);next(5)}},200)}
+function play(id){
+  let a=document.getElementById(id);
+  a.currentTime=0;
+  a.play();
 }
 
-function nextPage(){document.getElementById('pop').play();p++;if(p<pages.length){document.getElementById('page').innerText=pages[p]}else{next(6)}}
+function start(){
+  play('bg'); play('click');
+  next(2);
+}
 
-function openNote(){document.getElementById('note').innerHTML=
-`<div class='note'>🎉 Happy New Year 🎉<br><br>May your life be filled with joy, love & magic ✨<br><br><b>— From Tanishka 💖</b></div>`}
+function next(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
 
-setInterval(()=>{document.getElementById('clock').innerText=new Date().toLocaleTimeString()},1000)
+  if(n===2){
+    c=5;count.innerText=c;
+    let t=setInterval(()=>{
+      c--;count.innerText=c;
+      if(c===0){clearInterval(t);next(3)}
+    },1000);
+  }
 
-for(let i=0;i<25;i++){let s=document.createElement('div');s.className='snow';s.innerText=Math.random()>0.5?'❄️':'💖';s.style.left=Math.random()*100+'vw';s.style.animationDuration=3+Math.random()*5+'s';document.body.appendChild(s)}
-</script></body>
+  if(n===4){
+    let w=0;
+    let l=setInterval(()=>{
+      w+=5;bar.style.width=w+'%';
+      if(w>=100){clearInterval(l);next(5)}
+    },120);
+  }
+}
+
+function goLoad(){play('click');next(4)}
+
+function nextPage(){
+  play('click');
+  p++;
+  if(p<pages.length) page.innerText=pages[p];
+  else next(6);
+}
+
+function openNote(){
+  play('fire');
+  note.innerHTML=
+  `<div class="note">🎆 Happy New Year 🎆<br><br>
+   May your life sparkle with joy & love ✨<br><br>
+   <b>— From Tanishka 💖</b></div>`;
+  fireworks();
+}
+
+function fireworks(){
+  for(let i=0;i<30;i++){
+    let f=document.createElement('div');
+    f.className='firework';
+    f.innerText='🎆';
+    f.style.left=Math.random()*100+'vw';
+    f.style.top=Math.random()*70+'vh';
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+  }
+}
+
+setInterval(()=>{
+  let t=new Date().toLocaleTimeString();
+  clock.innerText=t;
+  envClock.innerText=t;
+},1000);
+
+setInterval(()=>{
+  let c=document.createElement('div');
+  c.className='confetti';
+  c.innerText=['🎊','✨','💖','❄️'][Math.floor(Math.random()*4)];
+  c.style.left=Math.random()*100+'vw';
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),4000);
+},300);
+
+page.innerText=pages[0];
+</script>
+
+</body>
 </html>
